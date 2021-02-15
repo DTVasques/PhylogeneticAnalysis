@@ -1,0 +1,16 @@
+#Tutorial
+https://cme.h-its.org/exelixis/web/software/raxml/hands_on.html
+
+#Partitioned analysis prompt
+
+raxmlHPC -m GTRGAMMA -p 12345 -# 1000 -q partition.txt -s dna.phy -n T1
+
+#The text file (partition.txt) should look like:
+GTR+G+I, atpB= 1-460
+GTR+G, atpBrbcL= 461-1193
+GTR+G+I, matK= 1194-1913
+GTR+G+I, rbcL= 1914-3120
+GTR+G, rbcLaccD= 3121-4520
+GTR+G, rps4= 4521-5051
+
+raxmlHPC -m GTRGAMMA -p 12345 -b 12345 -# 1000 -q partition.txt -s dna.phy -n T2
