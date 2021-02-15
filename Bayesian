@@ -1,0 +1,43 @@
+#NEXUS
+
+BEGIN DATA;
+	DIMENSIONS  NTAX=70 NCHAR=[460;733;720;1207;1400;531]5051;
+	FORMAT MISSING=? GAP=- MATCHCHAR=. DATATYPE=DNA INTERLEAVE=yes;
+	MATRIX
+  
+  spp DNA
+  spp DNA
+  spp DNA
+  
+  END
+  ;
+  
+  begin mrbayes; 
+	
+	charset atpb_1st = 1-460\2;
+	charset atpb_2nd = 2-460\2;
+	charset atpb-rbcl_1st = 461-1193\2;
+	charset atpb-rbcl_2nd = 462-1193\2;
+	charset matk_1st = 1194-1913\2;
+	charset matk_2nd = 1195-1913\2;
+	charset rbcL_1st = 1914-3120\2;
+	charset rbcL_2nd = 1915-3120\2;
+	charset rbcl-accd_1st = 3121-4520\2;
+	charset rbcl-accd_2nd = 3122-4520\2;
+	charset rps4-trns_1st = 4521-5051\2;
+	charset rps4-trns_2nd = 4522-5051\2;
+	partition favored = 12: atpb_1st, atpb_2nd, atpb-rbcl_1st, atpb-rbcl_2nd, matk_1st, matk_2nd, rbcL_1st, rbcL_2nd, rbcl-accd_1st, rbcl-accd_2nd, rps4-trns_1st, rps4-trns_2nd;
+end;
+
+begin mrbayes;
+	set partition= favored;
+	unlink shape=(all) pinvar=(all) statefreq=(all) revmat=(all);
+	Prset applyto=(1,2,3,4,5,6,7,8,9,10,11,12)statefreqpr=dirichlet(1,1,1,1);
+	Lset  applyto=(1,2) nst=6  rates=propinv;
+	Lset  applyto=(3,4) nst=6  rates=gamma;
+	Lset  applyto=(5,6) nst=6  rates=invgamma;
+	Lset  applyto=(7,8) nst=6  rates=invgamma;
+	Lset  applyto=(9,10) nst=6  rates=gamma;
+	Lset  applyto=(11,12) nst=6  rates=gamma;
+	mcmc ngen=10000000 samplefreq=100 printfreq=1000 diagnfreq=10000 stoprule=yes stopval=0.01 relburnin=yes burninfrac=0.25;
+end;
