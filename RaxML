@@ -13,4 +13,14 @@ GTR+G+I, rbcL= 1914-3120
 GTR+G, rbcLaccD= 3121-4520
 GTR+G, rps4= 4521-5051
 
+#Draw bootstrap trees
 raxmlHPC -m GTRGAMMA -p 12345 -b 12345 -# 1000 -q partition.txt -s dna.phy -n T2
+
+# Associate bootstrap trees to the best tree.
+raxmlHPC -m GTRGAMMA -p 12345 -f b -t RAxML_bestTree.T1 -z RAxML_bootstrap.T2 -n T3
+
+#Strict consensus tree
+raxmlHPC -m GTRGAMMA -J STRICT -z RAxML_bootstrap.T2 -n T4
+
+#Majority tree
+raxmlHPC -m GTRGAMMA -J MR -z RAxML_bootstrap.T2 -n T5
