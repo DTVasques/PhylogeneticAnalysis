@@ -29,3 +29,20 @@ Other functions:
 
 For SNP data (DNA) that typically do not contain constant sites, you can explicitly tell the model to include ascertainment bias correction: **+ASC**
 
+# Assessing branch-support (Ultra-fast bootstrap)
+
+```js
+iqtree -s example.phy -m TIM2+I+G -B 1000
+# for version 1.x change -B to -bb
+```
+
+Outputs:
+
+```js
+example.phy.iqtree: shows a textual representation of the maximum likelihood tree with branch support values in percentage
+example.phy.contree: the consensus tree with assigned branch supports where branch lengths are optimized on the original alignment.
+example.phy.splits.nex: support values in percentage for all splits (bipartitions), computed as the occurence frequencies in the bootstrap trees. This file can be viewed with the program SplitsTree to explore the conflicting signals in the data. So it is more informative than consensus tree, e.g. you can see how highly supported the second best conflicting split is, which had no chance to enter the consensus tree.
+example.phy.splits (if using -wsplits option): This file contains the same information as example.phy.splits.nex but in star-dot format.
+```
+
+
